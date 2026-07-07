@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  app-dev:
+    image: shanthigowd/dev:latest
+    container_name: dev
+
+    ports:
+      - "80:80"
+
+    restart: always
+
+  app-prod:
+    image: shanthigowd/prod:latest
+    container_name: prod
+
+    ports:
+      - "8080:80"
+
+    restart: always
