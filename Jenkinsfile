@@ -6,6 +6,8 @@ pipeline {
 
         DEV_REPO = "shanthigowd/dev"
         PROD_REPO = "shanthigowd/prod"
+        BRANCH_NAME = "dev"
+        ENVIRONMENT= "dev"
 
         IMAGE_TAG = "${BUILD_NUMBER}"
 
@@ -26,13 +28,13 @@ pipeline {
                 script {
 
                     if(env.BRANCH_NAME == "dev") {
-
+                        sh "chmod +x build.sh"
                         sh "./build.sh ${DEV_REPO} ${IMAGE_TAG}"
 
                     }
 
                     else if(env.BRANCH_NAME == "master") {
-
+                        sh "chmod +x build.sh"
                         sh "./build.sh ${PROD_REPO} ${IMAGE_TAG}"
 
                     }
@@ -42,16 +44,18 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
-
+        stage('Login to DockerHub') {
             steps {
-
-                sh """
-                echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
-                """
-
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    '''
+                }
             }
-
         }
 
         stage('Push Image') {
@@ -87,29 +91,17 @@ pipeline {
         }
 
         stage('Deploy') {
-
             steps {
-
-                script {
-
-                    if(env.BRANCH_NAME == "dev") {
-
-                        sh "./deploy.sh"
-
-                    }
-
-                    else if(env.BRANCH_NAME == "master") {
-
-                        sh "./deploy.sh"
-
-                    }
-
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh "chmod +x deploy.sh"
+                    sh "./deploy.sh ${DOCKER_USER} ${DOCKER_PASS} ${ENVIRONMENT}"
                 }
-
             }
-
         }
-
     }
 
 }
