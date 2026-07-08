@@ -6,8 +6,8 @@ pipeline {
 
         DEV_REPO = "shanthigowd/dev"
         PROD_REPO = "shanthigowd/prod"
-        BRANCH_NAME = "dev"
-        ENVIRONMENT= "dev"
+        BRANCH_NAME = "master"
+        ENVIRONMENT= "prod"
 
         IMAGE_TAG = "${BUILD_NUMBER}"
 
