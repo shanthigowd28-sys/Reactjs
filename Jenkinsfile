@@ -27,13 +27,13 @@ pipeline {
                 script {
 
                     if(env.BRANCH_NAME == "dev") {
-
+                        sh "chmod +x build.sh"
                         sh "./build.sh ${DEV_REPO} ${IMAGE_TAG}"
 
                     }
 
                     else if(env.BRANCH_NAME == "master") {
-
+                        sh "chmod +x build.sh"
                         sh "./build.sh ${PROD_REPO} ${IMAGE_TAG}"
 
                     }
@@ -96,13 +96,13 @@ pipeline {
                 script {
 
                     if(env.BRANCH_NAME == "dev") {
-
+                        sh "chmod +x deploy.sh"
                         sh "./deploy.sh"
 
                     }
 
                     else if(env.BRANCH_NAME == "master") {
-
+                        sh "chmod +x deploy.sh"
                         sh "./deploy.sh"
 
                     }
