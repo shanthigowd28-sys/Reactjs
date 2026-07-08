@@ -7,6 +7,7 @@ pipeline {
         DEV_REPO = "shanthigowd/dev"
         PROD_REPO = "shanthigowd/prod"
         BRANCH_NAME = "dev"
+        ENVIRONMENT= "dev"
 
         IMAGE_TAG = "${BUILD_NUMBER}"
 
@@ -97,7 +98,7 @@ pipeline {
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh "chmod +x deploy.sh"
-                    sh "./deploy.sh ${DOCKER_USER} ${DOCKER_PASS}"
+                    sh "./deploy.sh ${DOCKER_USER} ${DOCKER_PASS} ${ENVIRONMENT}"
                 }
             }
         }
