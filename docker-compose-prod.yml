@@ -1,0 +1,9 @@
+services:
+  app:
+    image: shanthigowd/prod:latest
+    container_name: prod
+
+    ports:
+      - "80:80"
+
+    restart: always
