@@ -1,0 +1,477 @@
+Started by user Ayitha santhi
+Lightweight checkout support not available, falling back to full checkout.
+Checking out git https://github.com/shanthigowd28-sys/Reactjs.git into /var/lib/jenkins/workspace/react@script/3fb07103832b9e51afaff670f07150f60094ee6e1a452bbdd5adeb021f3796f5 to read Jenkinsfile
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential dockerhub-creds
+ > /usr/bin/git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/react@script/3fb07103832b9e51afaff670f07150f60094ee6e1a452bbdd5adeb021f3796f5/.git # timeout=10
+Fetching changes from the remote Git repository
+ > /usr/bin/git config remote.origin.url https://github.com/shanthigowd28-sys/Reactjs.git # timeout=10
+Fetching upstream changes from https://github.com/shanthigowd28-sys/Reactjs.git
+ > /usr/bin/git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > /usr/bin/git fetch --tags --force --progress -- https://github.com/shanthigowd28-sys/Reactjs.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/dev
+Seen branch in repository origin/master
+Seen 2 remote branches
+ > /usr/bin/git show-ref --tags -d # timeout=10
+Checking out Revision fd268100cbf435ab294d073ca28bebbafa2110da (origin/master)
+ > /usr/bin/git config core.sparsecheckout # timeout=10
+ > /usr/bin/git checkout -f fd268100cbf435ab294d073ca28bebbafa2110da # timeout=10
+Commit message: "Change branch and environment to master and prod"
+ > /usr/bin/git rev-list --no-walk 84843bbb190753358b9dee05a3188f9b781a5490 # timeout=10
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/react
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential dockerhub-creds
+ > /usr/bin/git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/react/.git # timeout=10
+Fetching changes from the remote Git repository
+ > /usr/bin/git config remote.origin.url https://github.com/shanthigowd28-sys/Reactjs.git # timeout=10
+Fetching upstream changes from https://github.com/shanthigowd28-sys/Reactjs.git
+ > /usr/bin/git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > /usr/bin/git fetch --tags --force --progress -- https://github.com/shanthigowd28-sys/Reactjs.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/dev
+Seen branch in repository origin/master
+Seen 2 remote branches
+ > /usr/bin/git show-ref --tags -d # timeout=10
+Checking out Revision fd268100cbf435ab294d073ca28bebbafa2110da (origin/master)
+ > /usr/bin/git config core.sparsecheckout # timeout=10
+ > /usr/bin/git checkout -f fd268100cbf435ab294d073ca28bebbafa2110da # timeout=10
+Commit message: "Change branch and environment to master and prod"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_CREDS or $DOCKER_CREDS_PSW
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential dockerhub-creds
+ > /usr/bin/git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/react/.git # timeout=10
+Fetching changes from the remote Git repository
+ > /usr/bin/git config remote.origin.url https://github.com/shanthigowd28-sys/Reactjs.git # timeout=10
+Fetching upstream changes from https://github.com/shanthigowd28-sys/Reactjs.git
+ > /usr/bin/git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > /usr/bin/git fetch --tags --force --progress -- https://github.com/shanthigowd28-sys/Reactjs.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/dev
+Seen branch in repository origin/master
+Seen 2 remote branches
+ > /usr/bin/git show-ref --tags -d # timeout=10
+Checking out Revision fd268100cbf435ab294d073ca28bebbafa2110da (origin/master)
+ > /usr/bin/git config core.sparsecheckout # timeout=10
+ > /usr/bin/git checkout -f fd268100cbf435ab294d073ca28bebbafa2110da # timeout=10
+Commit message: "Change branch and environment to master and prod"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ chmod +x build.sh
+[Pipeline] sh
++ ./build.sh shanthigowd/prod 18
+Building Docker Image...
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  3.692MB
+Step 1/4 : FROM nginx:alpine
+ ---> 54f2a904c251
+Step 2/4 : COPY build/ /usr/share/nginx/html
+ ---> Using cache
+ ---> f3ed8c6cc0eb
+Step 3/4 : EXPOSE 80
+ ---> Using cache
+ ---> 71838bc2cb92
+Step 4/4 : CMD ["nginx", "-g", "daemon off;"]
+ ---> Using cache
+ ---> a4103fc6b900
+Successfully built a4103fc6b900
+Successfully tagged shanthigowd/prod:18
+Docker Image Built Successfully
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Login to DockerHub)
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASS
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u shanthigowd --password-stdin
+Login Succeeded
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push Image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ docker push shanthigowd/prod:18
+The push refers to repository [docker.io/shanthigowd/prod]
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Waiting
+e6f31ffc071e: Waiting
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Waiting
+c75b9c33e8b0: Waiting
+c16defe09b2f: Mounted from shanthigowd/trendapp
+785f89caed8a: Waiting
+ab1fd9049751: Waiting
+01bf363d61e6: Mounted from shanthigowd/trendapp
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+967885d218c5: Waiting
+ce42635eeddd: Mounted from shanthigowd/trendapp
+e6f31ffc071e: Waiting
+c75b9c33e8b0: Mounted from shanthigowd/trendapp
+5b429a43b8df: Mounted from shanthigowd/trendapp
+967885d218c5: Mounted from shanthigowd/trendapp
+e6f31ffc071e: Mounted from shanthigowd/trendapp
+785f89caed8a: Waiting
+ab1fd9049751: Mounted from shanthigowd/trendapp
+785f89caed8a: Mounted from shanthigowd/dev
+18: digest: sha256:a4103fc6b9004f746cc76f92efbc7ac97751645a430aafd1c67e33fb3f0ced46 size: 2264
++ docker tag shanthigowd/prod:18 shanthigowd/prod:latest
++ docker push shanthigowd/prod:latest
+The push refers to repository [docker.io/shanthigowd/prod]
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Waiting
+5b429a43b8df: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+c75b9c33e8b0: Layer already exists
+5b429a43b8df: Layer already exists
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Waiting
+01bf363d61e6: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+ce42635eeddd: Layer already exists
+01bf363d61e6: Layer already exists
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+785f89caed8a: Waiting
+967885d218c5: Waiting
+ab1fd9049751: Waiting
+e6f31ffc071e: Waiting
+c16defe09b2f: Waiting
+ab1fd9049751: Layer already exists
+e6f31ffc071e: Layer already exists
+c16defe09b2f: Layer already exists
+785f89caed8a: Layer already exists
+967885d218c5: Waiting
+967885d218c5: Layer already exists
+latest: digest: sha256:a4103fc6b9004f746cc76f92efbc7ac97751645a430aafd1c67e33fb3f0ced46 size: 2264
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_PASS
+[Pipeline] {
+[Pipeline] sh
++ chmod +x deploy.sh
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [DOCKER_PASS, DOCKER_CREDS_PSW]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ ./deploy.sh shanthigowd **** prod
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.17.0-1019-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Wed Jul  8 05:05:04 UTC 2026
+
+  System load:  0.0               Temperature:           -273.1 C
+  Usage of /:   41.5% of 6.71GB   Processes:             121
+  Memory usage: 31%               Users logged in:       1
+  Swap usage:   0%                IPv4 address for ens5: 10.0.1.20
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+3 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Login Succeeded
+ Image shanthigowd/prod:latest Pulling 
+ Image shanthigowd/prod:latest Pulled 
+ Container dev Stopping 
+ Container dev Stopped 
+ Container dev Removing 
+ Container dev Removed 
+ Network app_default Removing 
+ Network app_default Removed 
+ Network app_default Creating 
+ Network app_default Created 
+ Container prod Creating 
+ Container prod Created 
+ Container prod Starting 
+ Container prod Started 
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
