@@ -90,29 +90,17 @@ pipeline {
         }
 
         stage('Deploy') {
-
             steps {
-
-                script {
-
-                    if(env.BRANCH_NAME == "dev") {
-                        sh "chmod +x deploy.sh"
-                        sh "./deploy.sh"
-
-                    }
-
-                    else if(env.BRANCH_NAME == "master") {
-                        sh "chmod +x deploy.sh"
-                        sh "./deploy.sh"
-
-                    }
-
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh "chmod +x deploy.sh"
+                    sh "./deploy.sh ${DOCKER_USER} ${DOCKER_PASS}"
                 }
-
             }
-
         }
-
     }
 
 }
